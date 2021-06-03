@@ -11,6 +11,13 @@ export namespace Swingbot {
         id: string;
     }
 
+    export interface TDAAccount {
+        enabled: boolean;
+        account_number: String;
+        perTradeAllowance: number;
+        totalAllowance: number
+    }
+
     export interface Settings {
         twitter: {
             api: {
@@ -23,10 +30,23 @@ export namespace Swingbot {
             authorizedSignalsFromUsers: string[];
         };
         alpaca: {
+            enabled: boolean
             api: {
                 keyId: string;
                 secretKey: string;
             }
+            swingbot: {
+                maxNumberOfTrades: number;
+                perTradeAllowance: number;
+                totalAllowance: number;
+            }
+        };
+        tda: {
+            api: {
+                refresh_token: string;
+                client_id: string;
+            }
+            swingbot: TDAAccount[];
         };
         swingbot: {
             logging: "normal" | "verbose";

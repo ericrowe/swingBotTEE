@@ -3,12 +3,14 @@ import { swingbotSettings } from "./settings";
 import { AlpacaSB } from "./engine/alpaca";
 import { SwingbotUtils } from "./engine/swingbot";
 import { testTweet } from "./engine/testing";
+import { TDASB } from "./engine/tda";
 
 // create new instance of Twitter Client for the Swing Bot
 const twitterSB = new TwitterSB(swingbotSettings);
 
 // create new instance of Alpaca Client for the Swing Bot
 const alpacaSB = new AlpacaSB(swingbotSettings);
+const tdaSB = new TDASB(swingbotSettings);
 
 
 
@@ -29,6 +31,18 @@ function onTweetReceived(tweet) {
         // if there's a signal, buy it on alpaca
         if (signal) {
             SwingbotUtils.logSignal(signal, tweet);
+            swingbotSettings.tda.swingbot.forEach(function (account) {
+                tdaSB.buyStock(signal,account)
+                    .then(r => {
+                        console.log("TDA Purchase Successful")
+                        tdaSB.printStatus();
+                    })
+                    .catch(e => {
+                        console.log("TDA Purchase Failed")
+                        console.log(e)
+                        tdaSB.printStatus();
+                    })
+            })
             alpacaSB.buyStock(signal)
                 .then(r => AlpacaSB.logPurchaseSuccess(signal))
                 .catch(e => AlpacaSB.logPurchaseError(signal, e));
@@ -37,7 +51,11 @@ function onTweetReceived(tweet) {
 }
 
 SwingbotUtils.logWelcomeMessage();
+alpacaSB.printStatus();
+tdaSB.printStatus();
 twitterSB.startListening((tweet) => onTweetReceived(tweet))
+
+
 
 
 /**

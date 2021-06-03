@@ -52,7 +52,9 @@ export class TwitterSB {
                 onTweetCallback(tweet)
             })
             .on("ping", () => {
-                console.log("...ping Twitter @", moment().format('MMMM Do YYYY, h:mm:ss a'));
+                if (this.swingbotSettings.swingbot.logging === 'verbose') {
+                    console.log("...ping Twitter @", moment().format('MMMM Do YYYY, h:mm:ss a'));
+                }
                 this.lastTimestamp = Date.now();
             })
             .on("error", error => {

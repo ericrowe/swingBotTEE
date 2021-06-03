@@ -1,6 +1,7 @@
 import { Swingbot } from "../interfaces/swingbot.interface";
 import * as os from "os";
 import { TwitterSB } from "./twitter";
+import { swingbotSettings } from "../settings";
 
 export class SwingbotUtils {
 
@@ -69,6 +70,11 @@ export class SwingbotUtils {
         console.log('   *                                                                  *')
         console.log('   *         And will execute all signals as paper trades on:         *');
         console.log('   *          > Alpaca Stock Brokerage (www.alpaca.markets)           *');
+        swingbotSettings.tda.swingbot.forEach(function (accountConfiguration) {
+            if (accountConfiguration.enabled) {
+                console.log(`   *          > TD Ameritrade Account ${accountConfiguration.account_number}                       *`);
+            }
+        })
         console.log('   *                                                                  *')
         console.log('   *                                                                  *')
         console.log('   *      This is not a financial advisor. USE AT YOUR OWN RISK.      *');
