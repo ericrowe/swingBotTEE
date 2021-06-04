@@ -7,10 +7,13 @@ It will listen to Twitter signals from:
                                                        
                                                        
 And will execute all signals as paper trades on:       
- > Alpaca Stock Brokerage (www.alpaca.markets)         
-                                                       
+ > Alpaca Stock Brokerage (www.alpaca.markets)    
+
+And will execute all signals as REAL TRADES on:
+ > TD Ameritrade (tdameritrade.com)
                                                               
 ### This is not a financial advisor. USE AT YOUR OWN RISK.
+### TD Ameritrade DOES NOT SUPPORT PAPER TRADING.  USE AT YOUR OWN RISK.  This is NOT a financial advisor, and it WILL lose you money.
 #### DISCLAIMER: This software is provided AS IS. It is not responsible for any financial loss or gain. (Unless you win big, then I'll accept a Tesla, Ludicrous+ Mode only...with Warp Speed of course)
 #### This is not affiliated with SwingBot (independent project)
 
@@ -23,7 +26,8 @@ Once dependencies are installed run: ``` npm start ``` in your terminal
 
 ### You will need two accounts:
 1) Twitter Developer Account: https://developer.twitter.com/
-2) Alpaca Account: https://www.alpaca.markets
+2) Alpaca Account: https://www.alpaca.markets or
+3) TD Ameritrade Account: https://tdameritrade.com
 
 ### From the Twitter Developer account you will need to get:
 1) consumer_api_key
@@ -35,6 +39,10 @@ Once dependencies are installed run: ``` npm start ``` in your terminal
 1) keyId
 2) secretKey
 > **IF YOU RESET YOUR ALPACA PAPER TRADING ACCOUNT YOU WILL NEED TO RE-GENERATE YOUR KEYS OR THE APP WILL NOT WORK**
+
+### From TD Ameritrade, you'll need to spend some time getting this working.  Good luck.
+1) Follow the instructions here to get your keys.  You're basically running through OAuth manually: https://github.com/Sainglend/tda-api-client/blob/19459ba1a0280379363adabfe1524323cf30da31/authREADME.md
+2) You'll also need your account numbers.  They can be found on the TDA Website.
 
 Once you have all credentials open the ```src/settings.ts``` file and add your credentials:
 
@@ -49,11 +57,34 @@ Once you have all credentials open the ```src/settings.ts``` file and add your c
         }
     },
     alpaca: {
+        enabled: true,
         api: {
             keyId: '--- ALPACA API KEY HERE ---',
             secretKey: '--- ALPACA SECRET KEY HERE ---',
+        },
+        swingbot: {
+            maxNumberOfTrades: 6, // limits it to a certain number of in progress trades at a time
+            perTradeAllowance: 35000, // sets the maximum allowance per trade allowed
+            totalAllowance: 100000, // sets the total allowance allowed for the alpaca account per run
         }
     }
+    tda: {
+        api: {
+            refresh_token: '--- TD AMERITRADE API KEY HERE',
+            client_id: '--- TD AMERITRADE CLIENT ID HERE ---',
+        },
+        swingbot: [
+            // add an entry for each account on TDA.  Each can be enabled separately with separate configurations
+            { 
+                enabled: true, 
+                account_number: '--- TD AMERITRADE ACCOUNT NUMBER HERE ---', 
+                perTradeAllowance: 3500, // sets the maximum allowance per trade allowed
+                totalAllowance: 10000, // sets the total allowance allowed for the alpaca account per run
+                minimumBalance: 1000 // sets the minimum balance the cash is allowed to get in the account.  
+                                     // useful for saving some settled cash for tomorrows trading session.
+            }
+        ]
+    },
 }
 ```
 
