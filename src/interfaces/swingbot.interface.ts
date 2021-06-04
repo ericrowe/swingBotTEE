@@ -5,7 +5,12 @@ export namespace Swingbot {
         sellPrice: number;
         stopPrice: number;
     }
-
+    export interface QuoteAnalysis {
+        symbol: string;
+        askPrice: number; // ask price as reported
+        bidPrice: number; // bid price as reported
+        limitBuyPrice: number; // recommended limit buy price
+    }
     export interface FollowUser {
         name: string;
         id: string;
@@ -15,7 +20,8 @@ export namespace Swingbot {
         enabled: boolean;
         account_number: String;
         perTradeAllowance: number;
-        totalAllowance: number
+        totalAllowance: number;
+        minimumBalance: number;
     }
 
     export interface Settings {

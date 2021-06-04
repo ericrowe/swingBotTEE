@@ -33,7 +33,7 @@ export const swingbotSettings: Swingbot.Settings = {
             client_id: '--- TD AMERITRADE CLIENT ID HERE ---',
         },
         swingbot: [
-            { enabled: true, account_number: '--- TD AMERITRADE ACCOUNT NUMBER HERE ---', perTradeAllowance: 3500, totalAllowance: 10000 }
+            { enabled: true, account_number: '--- TD AMERITRADE ACCOUNT NUMBER HERE ---', perTradeAllowance: 3500, totalAllowance: 10000, minimumBalance: 1000 }
         ]
     },
     swingbot: {
